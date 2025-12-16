@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Code, Smartphone, Globe, Zap, Award, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+// @ts-ignore
+import GitHubCalendar from 'react-github-calendar';
 
 const About = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -52,7 +54,7 @@ const About = () => {
     },
     {
       icon: <Users className="w-8 h-8 text-primary" />,
-      title: 'Colaboracion',
+      title: 'Colaboración',
       description: 'Participando en proyectos en equipo y contribuyendo a repositorios de práctica'
     },
     {
@@ -86,16 +88,6 @@ const About = () => {
                 trabajado en proyectos personales y ejercicios que me han permitido 
                 afianzar las bases del desarrollo web y conocer herramientas modernas.
               </p>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                Mi objetivo es seguir mejorando cada día, escribir código limpio y 
-                adquirir experiencia trabajando en proyectos reales, colaborando 
-                con otros y resolviendo problemas del mundo real.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Cuando no estoy estudiando o practicando, disfruto explorando 
-                nuevas tecnologías, leyendo sobre tendencias del sector y 
-                compartiendo lo que aprendo con otros.
-              </p>
             </div>
 
             {/* Skills */}
@@ -120,18 +112,43 @@ const About = () => {
             </div>
           </div>
 
-          {/* Image Placeholder */}
+          {/* Image */}
           <div className="fade-in-up">
             <div className="relative">
-            <div className="aspect-square bg-gradient-accent rounded-2xl flex items-center justify-center overflow-hidden min-w-[400px] min-h-[400px]">  
-                  <img
-                    src="./imagen.png"
-                    alt="Mi imagen"
-                    className="w-full h-full object-cover"
-                  />
+              <div className="aspect-square bg-gradient-accent rounded-2xl flex items-center justify-center overflow-hidden min-w-[300px] md:min-w-[400px]">  
+                <img
+                  src="./imagen.png"
+                  alt="Mi imagen"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
           </div>
+        </div>
+
+        {/* --- NUEVA SECCIÓN: GITHUB CALENDAR --- */}
+        <div className="fade-in-up mb-20">
+          <Card className="glass-effect border-border/20 overflow-hidden">
+            <CardContent className="p-8">
+              <div className="flex flex-col items-center">
+                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <Code className="w-6 h-6 text-primary" /> Mi Actividad en GitHub
+                </h3>
+                <div className="w-full flex justify-center overflow-x-auto py-4">
+                  <GitHubCalendar 
+                    username="JohanSebastianPZ" 
+                    colorScheme='dark'
+                    blockSize={12}
+                    blockMargin={4}
+                    fontSize={14}
+                  />
+                </div>
+                <p className="text-sm text-muted-foreground mt-4 italic">
+                  Contribuciones realizadas en el último año
+                </p>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Services */}
