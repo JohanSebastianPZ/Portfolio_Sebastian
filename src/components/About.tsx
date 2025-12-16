@@ -138,16 +138,9 @@ const About = () => {
                   <GitHubCalendar 
                     username="JohanSebastianPZ" 
                     colorScheme='dark'
-                    // Aumentamos el tamaño de cada cuadrito (antes era 12)
                     blockSize={16} 
-                    // Aumentamos un poco el margen entre cuadros (antes era 4)
                     blockMargin={5}
-                    // Subimos el tamaño de la fuente de los textos (Meses y días)
                     fontSize={16}
-                    // Opcional: añade un tema para que los verdes sean más vibrantes
-                    theme={{
-                        dark: ['#161b22', '#0ea5e9'], // Un azul brillante acorde a tu tema
-                    }}
                     />
                 </div>
                 <p className="text-sm text-muted-foreground mt-4 italic">
