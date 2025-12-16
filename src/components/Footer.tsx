@@ -25,7 +25,7 @@ const Footer = () => {
     },
     {
       icon: <Linkedin className="w-5 h-5" />,
-      url: 'https://www.linkedin.com/in/johan-sebastian-martinez-84432637b/',
+      url: 'https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?trk=opento_sprofile_goalscard',
       label: 'LinkedIn'
     },
     // {

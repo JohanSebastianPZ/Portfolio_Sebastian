@@ -75,7 +75,7 @@ const Navigation = () => {
               size="icon"
               variant="ghost"
               className="hover:bg-accent hover:text-accent-foreground"
-              onClick={() => window.open('https://www.linkedin.com/in/johan-sebastian-martinez-84432637b/', '_blank')}
+              onClick={() => window.open('https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?trk=opento_sprofile_goalscard', '_blank')}
             >
               <Linkedin className="w-5 h-5" />
             </Button>
@@ -124,7 +124,7 @@ const Navigation = () => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  onClick={() => window.open('https://www.linkedin.com/in/johan-sebastian-martinez-84432637b/', '_blank')}
+                  onClick={() => window.open('https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?trk=opento_sprofile_goalscard', '_blank')}
                 >
                   <Linkedin className="w-5 h-5" />
                 </Button>
