@@ -35,15 +35,16 @@ const Projects = () => {
 	const projects = [
 		{
 			id: 1,
-			title: "E-commerce Platform",
-			description: "Plataforma de comercio electrónico completa con panel de administración, pagos integrados y gestión de inventario.",
-			image: "/api/placeholder/400/300",
-			technologies: ["React", "Node.js", "PostgreSQL", "Stripe"],
+			title: "Activity Booking",
+			description: "Optimización de plugin de booking con módulos de impresión de facturas y captura de parámetros dinámicos durante el flujo de compra.",
+			image: "./Activity_booking.png",
+			technologies: ["PHP", "Javascript"],
 			category: "web",
-			github: "https://github.com",
-			live: "https://example.com",
+			github: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
+			live: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
 			featured: true,
-		},
+        }
+		/*},
 		{
 			id: 2,
 			title: "Task Management App",
@@ -98,13 +99,12 @@ const Projects = () => {
 			github: "https://github.com",
 			live: "https://example.com",
 			featured: false,
-		},
+		},*/
 	];
 
 	const categories = [
 		{ id: "all", label: "Todos" },
 		{ id: "web", label: "Web" },
-		{ id: "mobile", label: "Móvil" },
 		{ id: "backend", label: "Backend" },
 	];
 
@@ -114,16 +114,14 @@ const Projects = () => {
 		<section id="projects" ref={sectionRef} className=" bg-background">
 			<div className="text-center mb-16">
 				<h2 className="text-3xl md:text-4xl font-bold mb-4 fade-in-up">Proyectos destacados</h2>
-				{/* <p className="text-lg text-muted-foreground max-w-2xl mx-auto fade-in-up">
-            Una selección de mis trabajos más representativos y las tecnologías utilizadas
-          </p> */}
+				<p className="text-lg text-muted-foreground max-w-2xl mx-auto fade-in-up">Una selección de mis trabajos más representativos y las tecnologías utilizadas</p>
 			</div>
-			<div className="max-w-3xl mx-auto px-4">
+			{/* <div className="max-w-3xl mx-auto px-4">
 				<div className="text-center py-10 border rounded-2xl bg-accent/10">
 					<h3 className="text-2xl font-bold mb-4">🚧 Proyectos en camino</h3>
 					<p className="text-muted-foreground">Actualmente estoy construyendo mis primeros proyectos prácticos. Pronto estarán disponibles aquí.</p>
 				</div>
-			</div>
+			</div> */}
 
 			<div className="container mx-auto px-4">
 				{/* Header */}
