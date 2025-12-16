@@ -43,7 +43,7 @@ const Projects = () => {
 			github: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
 			live: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
 			featured: true,
-        }
+		},
 		/*},
 		{
 			id: 2,
@@ -149,9 +149,7 @@ const Projects = () => {
 							.map((project, index) => (
 								<Card key={project.id} className="hover-lift glass-effect border-border/20 group fade-in-up">
 									<div className="relative overflow-hidden">
-										<div className="aspect-video bg-gradient-accent flex items-center justify-center">
-											<Eye className="w-12 h-12 text-primary/30" />
-										</div>
+										<img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
 										<div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
 											<Button size="icon" variant="secondary" onClick={() => window.open(project.live, "_blank")} className="hover:scale-110 transition-transform">
 												<ExternalLink className="w-5 h-5" />
