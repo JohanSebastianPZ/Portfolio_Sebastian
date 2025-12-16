@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/black-canvas-webfolio/', // <--- Agrega esta línea
+  base: '/Portfolio_Sebastian/', // <--- Agrega esta línea
   server: {
     host: "::",
     port: 8080,
