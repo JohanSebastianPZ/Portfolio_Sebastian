@@ -44,6 +44,17 @@ const Projects = () => {
 			github: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
 			live: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
 		},
+		{
+			id: 2,
+			title: "Emisora Max FM",
+			description: "Plataforma web para una emisora de radio en Barcelona con streaming en vivo, chat interactivo moderado por IA y panel de administración. Frontend en React, bot de chat en Python y conexión a base de datos en PHP.",
+			image: "/maxfm.png",
+			technologies: ["React", "TypeScript", "Vite", "Python", "PHP"],
+			category: "web",
+			featured: true,
+			github: "https://github.com/dimitryx01/maxfm-radiowave-glow.git",
+			live: "https://github.com/dimitryx01/maxfm-radiowave-glow.git",
+		},
 		/*},
         {
             id: 2,
