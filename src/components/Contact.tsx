@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from 'lucide-react';
+import { useState } from 'react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import emailjs from 'emailjs-com';
 
 const Contact = () => {
-  const sectionRef = useRef<HTMLElement>(null);
+  const sectionRef = useScrollAnimation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,30 +19,6 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const elements = entry.target.querySelectorAll('.fade-in-up');
-            elements.forEach((el, index) => {
-              setTimeout(() => {
-                el.classList.add('visible');
-              }, index * 200);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -50,27 +27,27 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     try {
       await emailjs.send(
-        'service_reb4gv9', // Service ID
-        'template_allkuvh', // Template ID
+        'service_reb4gv9',
+        'template_allkuvh',
         {
           name: formData.name,
-          email: formData.email, // Este se usará en Reply-To
+          email: formData.email,
           subject: formData.subject,
           message: formData.message
         },
-        'jOpHaw-DDzWg_OzKB' // Public KEY
+        'jOpHaw-DDzWg_OzKB'
       );
-  
+
       toast({
         title: '¡Mensaje enviado!',
         description: 'Te responderé lo antes posible. ¡Gracias por contactarme!',
       });
-  
+
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error al enviar',
         description: 'No se pudo enviar el mensaje. Intenta más tarde.',
@@ -86,7 +63,7 @@ const Contact = () => {
       icon: <Mail className="w-6 h-6" />,
       title: 'Email',
       value: 'johansebastian627@gmail.com',
-      link: 'johansebastian627@gmail.com'
+      link: 'mailto:johansebastian627@gmail.com'
     },
     {
       icon: <Phone className="w-6 h-6" />,
@@ -98,7 +75,7 @@ const Contact = () => {
       icon: <MapPin className="w-6 h-6" />,
       title: 'Ubicación',
       value: 'Barcelona, España',
-      link: 'https://maps.google.com'
+      link: 'https://maps.google.com/?q=Barcelona,España'
     }
   ];
 
@@ -115,12 +92,6 @@ const Contact = () => {
       url: 'https://www.linkedin.com/in/johan-sebastian-martinez-84432637b/',
       color: 'hover:text-blue-400'
     },
-    // { Esa parte no aplica por ahora
-    //   icon: <Twitter className="w-5 h-5" />,
-    //   name: 'Twitter',
-    //   url: 'https://twitter.com/tu_usuario',
-    //   color: 'hover:text-sky-400'
-    // }
   ];
 
   return (
@@ -233,7 +204,6 @@ const Contact = () => {
 
           {/* Contact Info */}
           <div className="space-y-8">
-            {/* Contact Methods */}
             <div className="fade-in-up">
               <h3 className="text-2xl font-bold mb-6">Información de contacto</h3>
               <div className="space-y-6">

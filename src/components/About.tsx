@@ -1,35 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { Code, Smartphone, Globe, Zap, Award, Users } from 'lucide-react';
+import { Code, Globe, Zap, Award, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 // @ts-ignore
 import { GitHubCalendar } from 'react-github-calendar';
+import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const About = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const elements = entry.target.querySelectorAll('.fade-in-up');
-            elements.forEach((el, index) => {
-              setTimeout(() => {
-                el.classList.add('visible');
-              }, index * 200);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useScrollAnimation();
 
   const skills = [
     { name: 'Java', level: 60 },
@@ -83,9 +59,9 @@ const About = () => {
             <div className="fade-in-up">
               <h3 className="text-2xl font-bold mb-4">Mi historia</h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Soy un desarrollador web en formación con muchas ganas de aprender y 
-                crecer en el mundo de la tecnología. Durante mi aprendizaje, he 
-                trabajado en proyectos personales y ejercicios que me han permitido 
+                Soy un desarrollador web en formación con muchas ganas de aprender y
+                crecer en el mundo de la tecnología. Durante mi aprendizaje, he
+                trabajado en proyectos personales y ejercicios que me han permitido
                 afianzar las bases del desarrollo web y conocer herramientas modernas.
               </p>
             </div>
@@ -115,7 +91,7 @@ const About = () => {
           {/* Image */}
           <div className="fade-in-up">
             <div className="relative">
-              <div className="aspect-square bg-gradient-accent rounded-2xl flex items-center justify-center overflow-hidden min-w-[300px] md:min-w-[400px]">  
+              <div className="aspect-square bg-gradient-accent rounded-2xl flex items-center justify-center overflow-hidden min-w-[300px] md:min-w-[400px]">
                 <img
                   src="./imagen.png"
                   alt="Mi imagen"
@@ -126,7 +102,7 @@ const About = () => {
           </div>
         </div>
 
-        {/* --- Github Calendar --- */}
+        {/* Github Calendar */}
         <div className="fade-in-up mb-20">
           <Card className="glass-effect border-border/20 overflow-hidden">
             <CardContent className="p-8">
@@ -135,8 +111,8 @@ const About = () => {
                   <Code className="w-6 h-6 text-primary" /> Mi Actividad en GitHub
                 </h3>
                 <div className="w-full flex justify-center overflow-x-auto py-4">
-                  <GitHubCalendar 
-                    username="JohanSebastianPZ" 
+                  <GitHubCalendar
+                    username="JohanSebastianPZ"
                     colorScheme='dark'
                     blockSize={16}
                     blockMargin={5}

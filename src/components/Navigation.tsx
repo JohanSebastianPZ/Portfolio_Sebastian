@@ -1,25 +1,20 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Code, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { scrollToSection } from '@/lib/scroll';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavClick = (sectionId: string) => {
+    scrollToSection(sectionId);
     setIsMenuOpen(false);
   };
 
@@ -27,8 +22,6 @@ const Navigation = () => {
     { id: 'hero', label: 'Inicio' },
     { id: 'about', label: 'Sobre mí' },
     { id: 'projects', label: 'Proyectos' },
-    // { id: 'hiring', label: 'Contratación' }, //Proxima implementacion 
-    // { id: 'blog', label: 'Blog' }, // Proxima implementacion
     { id: 'contact', label: 'Contacto' },
   ];
 
@@ -40,7 +33,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => scrollToSection('hero')}
+            onClick={() => handleNavClick('hero')}
             className="flex items-center gap-2 text-xl font-bold text-primary hover:text-primary/80 transition-colors"
           >
             <Code className="w-6 h-6" />
@@ -52,7 +45,7 @@ const Navigation = () => {
             {navItems.map((item) => (
               <button
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                onClick={() => handleNavClick(item.id)}
                 className="text-muted-foreground hover:text-primary transition-colors relative group"
               >
                 {item.label}
@@ -83,7 +76,7 @@ const Navigation = () => {
               size="icon"
               variant="ghost"
               className="hover:bg-accent hover:text-accent-foreground"
-              onClick={() => scrollToSection('contact')}
+              onClick={() => handleNavClick('contact')}
             >
               <Mail className="w-5 h-5" />
             </Button>
@@ -107,7 +100,7 @@ const Navigation = () => {
               {navItems.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => handleNavClick(item.id)}
                   className="px-4 py-2 text-left text-muted-foreground hover:text-primary transition-colors"
                 >
                   {item.label}
@@ -131,7 +124,7 @@ const Navigation = () => {
                 <Button
                   size="icon"
                   variant="ghost"
-                  onClick={() => scrollToSection('contact')}
+                  onClick={() => handleNavClick('contact')}
                 >
                   <Mail className="w-5 h-5" />
                 </Button>

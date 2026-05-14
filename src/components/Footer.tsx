@@ -1,19 +1,12 @@
-import { Code, Heart, Github, Linkedin, Mail, Twitter } from 'lucide-react';
+import { Code, Heart, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { scrollToSection } from '@/lib/scroll';
 
 const Footer = () => {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const quickLinks = [
     { label: 'Inicio', id: 'hero' },
     { label: 'Sobre mí', id: 'about' },
     { label: 'Proyectos', id: 'projects' },
-    // { label: 'Blog', id: 'blog' },
     { label: 'Contacto', id: 'contact' }
   ];
 
@@ -28,11 +21,6 @@ const Footer = () => {
       url: 'https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?trk=opento_sprofile_goalscard',
       label: 'LinkedIn'
     },
-    // {
-    //   icon: <Twitter className="w-5 h-5" />,
-    //   url: 'https://twitter.com/tu-usuario',
-    //   label: 'Twitter'
-    // },
     {
       icon: <Mail className="w-5 h-5" />,
       url: 'mailto:johansebastian627@gmail.com',
@@ -106,7 +94,7 @@ const Footer = () => {
             </div>
             <Button
               onClick={() => scrollToSection('contact')}
-              className="w-full  hover:opacity-90"
+              className="w-full hover:opacity-90"
             >
               Iniciar proyecto
             </Button>
