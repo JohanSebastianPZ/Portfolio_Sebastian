@@ -1,23 +1,12 @@
-import { Code, Globe, Zap, Award, Users } from 'lucide-react';
+import { Briefcase, Code, Cpu, Globe, Zap, Award, Users } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 // @ts-ignore
 import { GitHubCalendar } from 'react-github-calendar';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import TechSlider from '@/components/TechSlider';
 
 const About = () => {
   const sectionRef = useScrollAnimation();
-
-  const skills = [
-    { name: 'React',          level: 55, color: 'from-indigo-500 to-indigo-400' },
-    { name: 'TypeScript',     level: 45, color: 'from-indigo-600 to-indigo-400' },
-    { name: 'JavaScript',     level: 55, color: 'from-indigo-400 to-slate-400' },
-    { name: 'Java',           level: 60, color: 'from-slate-500 to-slate-400' },
-    { name: 'SQL',            level: 50, color: 'from-slate-600 to-slate-400' },
-    { name: 'Linux',          level: 50, color: 'from-slate-500 to-slate-400' },
-    { name: 'Docker',         level: 50, color: 'from-indigo-600 to-slate-500' },
-    { name: 'Git',            level: 55, color: 'from-slate-600 to-slate-500' },
-    { name: 'IA & Prompting', level: 65, color: 'from-indigo-600 to-indigo-500' },
-  ];
 
   const services = [
     {
@@ -75,26 +64,6 @@ const About = () => {
               </p>
             </div>
 
-            {/* Skills */}
-            <div className="fade-in-up">
-              <h4 className="text-xl font-semibold mb-4">Habilidades técnicas</h4>
-              <div className="space-y-4">
-                {skills.map((skill) => (
-                  <div key={skill.name} className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-sm font-medium">{skill.name}</span>
-                      <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                    </div>
-                    <div className="w-full bg-secondary rounded-full h-2">
-                      <div
-                        className={`bg-gradient-to-r ${skill.color} h-2 rounded-full transition-all duration-1000`}
-                        style={{ width: `${skill.level}%` }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
           {/* Image */}
@@ -110,6 +79,23 @@ const About = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Tech Slider */}
+        <div className="fade-in-up mb-20">
+          <Card className="glass-effect border-indigo-500/15 overflow-hidden">
+            <CardContent className="p-8">
+              <div className="flex flex-col items-center">
+                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                  <Cpu className="w-6 h-6 text-indigo-400" />
+                  Stack tecnológico
+                </h3>
+                <div className="w-full">
+                  <TechSlider />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Github Calendar */}
@@ -140,7 +126,8 @@ const About = () => {
 
         {/* Services */}
         <div className="fade-in-up">
-          <h3 className="text-2xl font-bold text-center mb-12">
+          <h3 className="text-2xl font-bold text-center mb-12 flex items-center justify-center gap-2">
+            <Briefcase className="w-6 h-6 text-indigo-400" />
             Servicios que ofrezco
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

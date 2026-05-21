@@ -1,70 +1,182 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, Download, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { scrollToSection } from '@/lib/scroll';
 
-const BUBBLES = [
-  { id: 1,  size: 80,  x: 8,  y: 12, colors: 'from-indigo-500/10 to-indigo-600/5',  depth: 20, delay: '0s',   duration: '6s'  },
-  { id: 2,  size: 130, x: 80, y: 8,  colors: 'from-blue-600/10 to-indigo-500/5',    depth: 40, delay: '1s',   duration: '8s'  },
-  { id: 3,  size: 60,  x: 20, y: 70, colors: 'from-slate-500/8 to-indigo-500/5',    depth: 30, delay: '2s',   duration: '7s'  },
-  { id: 4,  size: 110, x: 68, y: 60, colors: 'from-indigo-700/10 to-indigo-600/5',  depth: 50, delay: '0.5s', duration: '9s'  },
-  { id: 5,  size: 55,  x: 48, y: 15, colors: 'from-indigo-400/8 to-blue-500/5',     depth: 20, delay: '1.5s', duration: '5s'  },
-  { id: 6,  size: 95,  x: 12, y: 50, colors: 'from-blue-700/10 to-indigo-600/5',    depth: 40, delay: '3s',   duration: '10s' },
-  { id: 7,  size: 75,  x: 88, y: 42, colors: 'from-indigo-600/10 to-indigo-500/5',  depth: 30, delay: '2.5s', duration: '7s'  },
-  { id: 8,  size: 45,  x: 58, y: 82, colors: 'from-slate-600/8 to-indigo-500/5',    depth: 50, delay: '4s',   duration: '6s'  },
-  { id: 9,  size: 65,  x: 35, y: 35, colors: 'from-indigo-500/8 to-blue-600/5',     depth: 25, delay: '3.5s', duration: '8s'  },
-  { id: 10, size: 50,  x: 72, y: 25, colors: 'from-indigo-600/10 to-indigo-400/5',  depth: 35, delay: '5s',   duration: '9s'  },
+const STAR_COLORS = [
+  '#ffffff',
+  '#bfdbfe', // blue-200
+  '#93c5fd', // blue-300
+  '#67e8f9', // cyan-300
+  '#a5f3fc', // cyan-200
+  '#818cf8', // indigo-400
+  '#c4b5fd', // violet-300
+  '#fda4af', // rose-300
+  '#fde68a', // amber-200
+  '#6ee7b7', // emerald-300
 ];
+
+const NEBULAE = [
+  { x: 0.15, y: 0.25, r: 99,  g: 102, b: 241, a: 0.04,  radius: 280 },
+  { x: 0.78, y: 0.65, r: 167, g: 139, b: 250, a: 0.035, radius: 240 },
+  { x: 0.85, y: 0.15, r: 56,  g: 189, b: 248, a: 0.03,  radius: 200 },
+  { x: 0.45, y: 0.82, r: 244, g: 114, b: 182, a: 0.025, radius: 220 },
+];
+
+interface Star {
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  baseAlpha: number;
+  twinkleSpeed: number;
+  twinkleOffset: number;
+  depth: number;
+}
+
+const StarCanvas = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const starsRef = useRef<Star[]>([]);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
+  const rafRef = useRef<number>(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const init = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      if (canvas.width === 0) return;
+
+      const count = Math.min(220, Math.floor((canvas.width * canvas.height) / 5500));
+      starsRef.current = Array.from({ length: count }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        size: Math.pow(Math.random(), 2) * 2.8 + 0.3,
+        color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+        baseAlpha: Math.random() * 0.45 + 0.25,
+        twinkleSpeed: Math.random() * 1.5 + 0.4,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        depth: Math.random() * 0.7 + 0.3,
+      }));
+    };
+
+    const draw = (time: number) => {
+      const { width, height } = canvas;
+      if (width === 0 || height === 0) {
+        rafRef.current = requestAnimationFrame(draw);
+        return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+      const t = time * 0.001;
+      const hasMouse = mx > -9000;
+
+      // Nebulae with gentle parallax
+      NEBULAE.forEach((n) => {
+        const nx = n.x * width  + (hasMouse ? (mx / width  - 0.5) * 25 : 0);
+        const ny = n.y * height + (hasMouse ? (my / height - 0.5) * 25 : 0);
+        const grad = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.radius);
+        grad.addColorStop(0, `rgba(${n.r},${n.g},${n.b},${n.a})`);
+        grad.addColorStop(1, `rgba(${n.r},${n.g},${n.b},0)`);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, width, height);
+      });
+
+      // Subtle cursor aura
+      if (hasMouse) {
+        const aura = ctx.createRadialGradient(mx, my, 0, mx, my, 140);
+        aura.addColorStop(0, 'rgba(129,140,248,0.07)');
+        aura.addColorStop(1, 'rgba(129,140,248,0)');
+        ctx.fillStyle = aura;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      // Stars
+      starsRef.current.forEach((star) => {
+        const px = star.x * width  + (hasMouse ? (mx / width  - 0.5) * star.depth * 55 : 0);
+        const py = star.y * height + (hasMouse ? (my / height - 0.5) * star.depth * 55 : 0);
+
+        const dx = px - mx;
+        const dy = py - my;
+        const proximity = hasMouse
+          ? Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 180)
+          : 0;
+
+        const twinkle = Math.sin(t * star.twinkleSpeed + star.twinkleOffset);
+        const alpha = Math.min(0.95, star.baseAlpha + twinkle * 0.18 + proximity * 0.55);
+        const size  = star.size * (1 + twinkle * 0.2 + proximity * 1.8);
+
+        if (proximity > 0.05) {
+          ctx.shadowColor = star.color;
+          ctx.shadowBlur  = 8 + proximity * 22;
+        } else if (star.size > 1.8) {
+          ctx.shadowColor = star.color;
+          ctx.shadowBlur  = 4;
+        } else {
+          ctx.shadowBlur  = 0;
+        }
+
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle   = star.color;
+        ctx.beginPath();
+        ctx.arc(px, py, Math.max(0.3, size), 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.shadowBlur  = 0;
+      ctx.globalAlpha = 1;
+      rafRef.current  = requestAnimationFrame(draw);
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    init();
+
+    const observer = new ResizeObserver(init);
+    observer.observe(canvas);
+    window.addEventListener('mousemove', onMouseMove);
+    rafRef.current = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      observer.disconnect();
+      window.removeEventListener('mousemove', onMouseMove);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+    />
+  );
+};
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [showCV, setShowCV] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    setMousePos({
-      x: (e.clientX / window.innerWidth - 0.5) * 2,
-      y: (e.clientY / window.innerHeight - 0.5) * 2,
-    });
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove]);
-
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background */}
+      {/* Deep space background */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-indigo-950/8 to-background" />
 
-      {/* Bubbles — outer div handles mouse parallax, inner div handles float animation */}
-      {BUBBLES.map((bubble) => (
-        <div
-          key={bubble.id}
-          className="absolute pointer-events-none"
-          style={{
-            left: `${bubble.x}%`,
-            top: `${bubble.y}%`,
-            transform: `translate(${mousePos.x * bubble.depth}px, ${mousePos.y * bubble.depth}px)`,
-            transition: 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            willChange: 'transform',
-          }}
-        >
-          <div
-            className={`rounded-full bg-gradient-to-br ${bubble.colors} blur-xl`}
-            style={{
-              width: bubble.size,
-              height: bubble.size,
-              animation: `float ${bubble.duration} ease-in-out infinite ${bubble.delay}`,
-            }}
-          />
-        </div>
-      ))}
+      {/* Interactive star field */}
+      <StarCanvas />
 
       <div className="container mx-auto px-4 py-20 text-center relative z-10">
         <div className={`transition-all duration-1000 ${
@@ -146,7 +258,7 @@ const Hero = () => {
       {/* Scroll Indicator */}
       <button
         onClick={() => scrollToSection('about')}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce z-10"
       >
         <ChevronDown className="w-6 h-6" />
       </button>
