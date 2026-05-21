@@ -38,32 +38,58 @@ const TECH = [
   { name: 'IA & Prompting', icon: null },
 ];
 
-const SPEED = 0.55; // px per frame
+const SPEED = 0.55;
+
+const items = [...TECH, ...TECH];
 
 const TechSlider = () => {
-  const trackRef    = useRef<HTMLDivElement>(null);
-  const posRef      = useRef(0);
-  const isPausedRef = useRef(false);
-  const isDragRef   = useRef(false);
-  const lastXRef    = useRef(0);
-  const rafRef      = useRef<number>(0);
+  const wrapperRef    = useRef<HTMLDivElement>(null);
+  const trackRef      = useRef<HTMLDivElement>(null);
+  const posRef        = useRef(0);
+  const isPausedRef   = useRef(false);
+  const isDragRef     = useRef(false);
+  const lastXRef      = useRef(0);
+  const rafRef        = useRef<number>(0);
+  // Cached to avoid layout reflow (scrollWidth read) every animation frame
+  const halfWidthRef  = useRef(0);
+  const isVisibleRef  = useRef(false);
 
   useEffect(() => {
+    const track   = trackRef.current;
+    const wrapper = wrapperRef.current;
+    if (!track || !wrapper) return;
+
+    const updateHalf = () => { halfWidthRef.current = track.scrollWidth / 2; };
+    updateHalf();
+
+    const ro = new ResizeObserver(updateHalf);
+    ro.observe(track);
+
+    // Pause RAF position increments when slider is off-screen
+    const io = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 },
+    );
+    io.observe(wrapper);
+
     const animate = () => {
-      const track = trackRef.current;
-      if (track) {
-        if (!isDragRef.current && !isPausedRef.current) {
-          const half = track.scrollWidth / 2;
+      if (!isDragRef.current && !isPausedRef.current && isVisibleRef.current) {
+        const half = halfWidthRef.current;
+        if (half > 0) {
           posRef.current += SPEED;
           if (posRef.current >= half) posRef.current -= half;
         }
-        track.style.transform = `translateX(${-posRef.current}px)`;
       }
+      track.style.transform = `translateX(${-posRef.current}px)`;
       rafRef.current = requestAnimationFrame(animate);
     };
 
     rafRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafRef.current);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      ro.disconnect();
+      io.disconnect();
+    };
   }, []);
 
   const onMouseEnter = () => { isPausedRef.current = true; };
@@ -77,30 +103,29 @@ const TechSlider = () => {
   const onMouseMove = (e: React.MouseEvent) => {
     if (!isDragRef.current) return;
     const delta = lastXRef.current - e.clientX;
-    lastXRef.current  = e.clientX;
-    const half = (trackRef.current?.scrollWidth ?? 0) / 2;
-    posRef.current = ((posRef.current + delta) % half + half) % half;
+    lastXRef.current = e.clientX;
+    const half = halfWidthRef.current;
+    if (half > 0) posRef.current = ((posRef.current + delta) % half + half) % half;
   };
   const onMouseUp = () => { isDragRef.current = false; };
 
   const onTouchStart = (e: React.TouchEvent) => {
-    isDragRef.current = true;
+    isDragRef.current   = true;
     isPausedRef.current = true;
-    lastXRef.current  = e.touches[0].clientX;
+    lastXRef.current    = e.touches[0].clientX;
   };
   const onTouchMove = (e: React.TouchEvent) => {
     if (!isDragRef.current) return;
     const delta = lastXRef.current - e.touches[0].clientX;
-    lastXRef.current  = e.touches[0].clientX;
-    const half = (trackRef.current?.scrollWidth ?? 0) / 2;
-    posRef.current = ((posRef.current + delta) % half + half) % half;
+    lastXRef.current = e.touches[0].clientX;
+    const half = halfWidthRef.current;
+    if (half > 0) posRef.current = ((posRef.current + delta) % half + half) % half;
   };
   const onTouchEnd = () => { isDragRef.current = false; isPausedRef.current = false; };
 
-  const items = [...TECH, ...TECH];
-
   return (
     <div
+      ref={wrapperRef}
       className="relative overflow-hidden py-4 cursor-grab active:cursor-grabbing select-none"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -111,7 +136,6 @@ const TechSlider = () => {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Fade edges */}
       <div
         className="absolute inset-y-0 left-0 w-24 z-10 pointer-events-none"
         style={{ background: 'linear-gradient(to right, hsl(var(--background)), transparent)' }}
@@ -121,7 +145,6 @@ const TechSlider = () => {
         style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }}
       />
 
-      {/* Track (duplicated for seamless loop) */}
       <div
         ref={trackRef}
         className="flex items-center gap-12 w-max"
@@ -140,6 +163,7 @@ const TechSlider = () => {
                 width={68}
                 height={68}
                 draggable={false}
+                loading="lazy"
                 className="w-[68px] h-[68px] object-contain"
               />
             ) : (
