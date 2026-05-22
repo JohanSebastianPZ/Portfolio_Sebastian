@@ -50,10 +50,8 @@ const About = () => {
 
     let rafId: number;
     let tries = 0;
-    const MAX_TRIES = 120; // ~2s a 60fps
+    const MAX_TRIES = 120;
 
-    // Polling via rAF: espera hasta que el calendario genere overflow
-    // (react-github-calendar carga datos de la API de GitHub, puede tardar 1-3s)
     const scrollToRecent = () => {
       if (el.scrollWidth > el.clientWidth) {
         el.scrollLeft = el.scrollWidth;
@@ -75,27 +73,8 @@ const About = () => {
         {/* Hero intro */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-12 lg:gap-16 mb-28 items-center">
 
-          {/* Left — portrait centrado */}
-          <div className="fade-in-up flex justify-center items-center order-first lg:order-last">
-            <div className="relative flex justify-center">
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-64 h-64 sm:w-80 sm:h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-44 h-44 sm:w-56 sm:h-56 bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
-              <img
-                src="./imagen.png"
-                alt="Sebastian Martinez"
-                className="relative z-10 w-[280px] sm:w-[360px] lg:w-[420px] object-contain select-none mx-auto"
-                style={{ filter: 'drop-shadow(0 24px 48px rgba(99,102,241,0.18))' }}
-                draggable={false}
-              />
-              <div
-                className="absolute bottom-0 left-0 right-0 h-24 z-20 pointer-events-none"
-                style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}
-              />
-            </div>
-          </div>
-
-          {/* Right — text */}
-          <div className="flex-1 space-y-10 order-last lg:order-first">
+          {/* Texto — primero en HTML = primero en móvil */}
+          <div className="flex-1 space-y-10">
 
             <div className="fade-in-up flex items-center gap-3">
               <div className="w-8 h-px bg-indigo-400" />
@@ -104,7 +83,6 @@ const About = () => {
               </span>
             </div>
 
-            {/* Tipografía editorial */}
             <div className="fade-in-up space-y-2">
               <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
                 Diseño · Código · Experiencia
@@ -120,12 +98,11 @@ const About = () => {
               </p>
             </div>
 
-            {/* Tags */}
             <div className="fade-in-up flex flex-wrap gap-2">
               {[
-                { label: 'Frontend',          cls: 'bg-indigo-900/30 border-indigo-500/30 text-indigo-300'       },
-                { label: 'Backend',           cls: 'bg-slate-800/40  border-slate-500/30  text-slate-300'        },
-                { label: 'IA & Prompting',    cls: 'bg-violet-900/30 border-violet-500/30 text-violet-300'       },
+                { label: 'Frontend',       cls: 'bg-indigo-900/30 border-indigo-500/30 text-indigo-300' },
+                { label: 'Backend',        cls: 'bg-slate-800/40  border-slate-500/30  text-slate-300'  },
+                { label: 'IA & Prompting', cls: 'bg-violet-900/30 border-violet-500/30 text-violet-300' },
               ].map(({ label, cls }) => (
                 <span key={label} className={`px-3 py-1.5 rounded-full text-sm border font-medium ${cls}`}>
                   {label}
@@ -133,7 +110,6 @@ const About = () => {
               ))}
             </div>
 
-            {/* Stats */}
             <div className="fade-in-up flex items-center gap-8 sm:gap-12 pt-6 border-t border-border/30">
               <div>
                 <p className="text-4xl font-black text-primary">1+</p>
@@ -149,6 +125,25 @@ const About = () => {
                 <p className="text-4xl font-black text-primary">100%</p>
                 <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">Comprometido</p>
               </div>
+            </div>
+          </div>
+
+          {/* Imagen — segundo en HTML = segundo en móvil, derecha en desktop */}
+          <div className="fade-in-up flex justify-center items-center">
+            <div className="relative flex justify-center">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-64 h-64 sm:w-80 sm:h-80 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-44 h-44 sm:w-56 sm:h-56 bg-violet-600/10 rounded-full blur-2xl pointer-events-none" />
+              <img
+                src="./imagen.png"
+                alt="Sebastian Martinez"
+                className="relative z-10 w-[280px] sm:w-[360px] lg:w-[420px] object-contain select-none mx-auto"
+                style={{ filter: 'drop-shadow(0 24px 48px rgba(99,102,241,0.18))' }}
+                draggable={false}
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 h-24 z-20 pointer-events-none"
+                style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}
+              />
             </div>
           </div>
 
@@ -180,15 +175,15 @@ const About = () => {
                   <Code className="w-6 h-6 text-indigo-400" />
                   Mi Actividad en GitHub
                 </h3>
-                <div ref={calendarRef} className="w-full flex justify-center overflow-x-auto py-4">
-                    <GitHubCalendar
-                        username="JohanSebastianPZ"
-                        colorScheme='dark'
-                        blockSize={16}
-                        blockMargin={5}
-                        fontSize={16}
-                    />
-                    </div>
+                <div ref={calendarRef} className="w-full overflow-x-auto py-4">
+                  <GitHubCalendar
+                    username="JohanSebastianPZ"
+                    colorScheme='dark'
+                    blockSize={16}
+                    blockMargin={5}
+                    fontSize={16}
+                  />
+                </div>
                 <p className="text-sm text-muted-foreground mt-4 italic">
                   Contribuciones realizadas en el último año
                 </p>
