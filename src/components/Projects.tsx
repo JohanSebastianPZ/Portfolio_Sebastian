@@ -81,8 +81,8 @@ const Projects = () => {
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-16">
           {filteredProjects.length > 0 ? (
             filteredProjects.map((project) => (
-              <Card key={project.id} className="hover-lift glass-effect border-white/5 group fade-in-up overflow-hidden">
-                <div className="relative aspect-video w-full bg-muted">
+              <Card key={project.id} className="glass-effect border-white/5 group fade-in-up overflow-hidden">
+                <div className="relative aspect-video w-full bg-muted overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
@@ -91,7 +91,7 @@ const Projects = () => {
                       e.currentTarget.src = "https://via.placeholder.com/400x225?text=No+Image";
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-950/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
                     <Button size="icon" variant="secondary" onClick={() => window.open(project.live, "_blank")} className="bg-white/10 hover:bg-indigo-600 border-0 text-white transition-colors">
                       <ExternalLink className="w-5 h-5" />
                     </Button>
@@ -115,9 +115,6 @@ const Projects = () => {
                     <Button size="sm" onClick={() => window.open(project.live, "_blank")} className="flex-1 bg-indigo-700 hover:bg-indigo-600 text-white border-0 transition-colors">
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Ver proyecto
-                    </Button>
-                    <Button size="sm" variant="outline" onClick={() => window.open(project.github, "_blank")} className="border-white/10 text-muted-foreground hover:border-indigo-500/40 hover:text-indigo-300 transition-colors">
-                      <Github className="w-4 h-4" />
                     </Button>
                   </div>
                 </CardContent>

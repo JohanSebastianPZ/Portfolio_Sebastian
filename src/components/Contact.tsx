@@ -46,7 +46,7 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: <Github className="w-5 h-5" />,   name: 'GitHub',   url: 'https://github.com/JohansebastianPZ',                                                color: 'border-white/10 text-muted-foreground hover:border-indigo-500/40 hover:text-indigo-300' },
-    { icon: <Linkedin className="w-5 h-5" />, name: 'LinkedIn', url: 'https://www.linkedin.com/in/johan-sebastian-martinez-84432637b/', color: 'border-white/10 text-muted-foreground hover:border-indigo-500/40 hover:text-indigo-300' },
+    { icon: <Linkedin className="w-5 h-5" />, name: 'LinkedIn', url: 'https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?skipRedirect=true', color: 'border-white/10 text-muted-foreground hover:border-indigo-500/40 hover:text-indigo-300' },
   ];
 
   return (

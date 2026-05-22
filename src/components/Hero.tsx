@@ -90,7 +90,7 @@ const StarCanvas = () => {
       const stars: Star[] = Array.from({ length: count }, () => ({
         x: Math.random(),
         y: Math.random(),
-        size: Math.pow(Math.random(), 2) * 2.8 + 0.3,
+        size: Math.pow(Math.random(), 2) * 2.8 + 1,
         color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
         baseAlpha: Math.random() * 0.2 + 0.72,
         twinkleSpeed: Math.random() * 1.5 + 0.4,
@@ -104,9 +104,9 @@ const StarCanvas = () => {
         driftPhaseY: Math.random() * Math.PI * 2,
       }));
 
-      dimRef.current    = stars.filter(s => s.size <= 1.0);
-      medRef.current    = stars.filter(s => s.size > 1.0 && s.size <= 1.8);
-      brightRef.current = stars.filter(s => s.size > 1.8);
+      dimRef.current    = stars.filter(s => s.size <= 2);
+      medRef.current    = stars.filter(s => s.size > 2 && s.size <= 4);
+      brightRef.current = stars.filter(s => s.size > 4);
     };
 
     const drawBatch = (
@@ -122,8 +122,10 @@ const StarCanvas = () => {
         const star = stars[i];
         const driftX = star.driftAmpX * Math.sin(t * star.driftFreqX + star.driftPhaseX) * w;
         const driftY = star.driftAmpY * Math.cos(t * star.driftFreqY + star.driftPhaseY) * h;
-        const px = star.x * w + driftX + (hasMouse ? (mx / w - 0.5) * star.depth * 55 : 0);
-        const py = star.y * h + driftY + (hasMouse ? (my / h - 0.5) * star.depth * 55 : 0);
+        //const px = star.x * w + driftX + (hasMouse ? (mx / w - 0.5) * star.depth * 55 : 0);
+        const px = star.x * w + driftX;
+        //const py = star.y * h + driftY + (hasMouse ? (my / h - 0.5) * star.depth * 55 : 0);
+        const py = star.y * h + driftY;
 
         // Skip sqrt for distant stars — only compute when inside radius
         let proximity = 0;
@@ -139,7 +141,7 @@ const StarCanvas = () => {
         ctx.globalAlpha = Math.min(1, star.baseAlpha + twinkle * 0.1 + proximity * 0.3);
         ctx.fillStyle   = star.color;
         ctx.beginPath();
-        ctx.arc(px, py, Math.max(0.3, star.size * (1 + twinkle * 0.15 + proximity * 2.5)), 0, PI2);
+        ctx.arc(px, py, Math.max(0.3, star.size * (1 + twinkle * 0.15 + proximity * 3)), 0, PI2);
         ctx.fill();
       }
     };
@@ -243,7 +245,7 @@ const Hero = () => {
           </h2>
 
           <p className="text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-            Soy desarrollador en formación, especializado en frontend y backend. Me apasiona transformar ideas en aplicaciones web modernas,
+            Desarrollador en formación, especializado en frontend y backend. Me apasiona transformar ideas en aplicaciones web modernas,
             responsivas y optimizadas, me apasiona seguir perfeccionando mis habilidades para aportar valor real a cada proyecto.
           </p>
 

@@ -12,7 +12,7 @@ const Footer = () => {
 
   const socialLinks = [
     { icon: <Github className="w-5 h-5" />,   url: 'https://github.com/JohansebastianPZ',                                                                          label: 'GitHub'  },
-    { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?trk=opento_sprofile_goalscard', label: 'LinkedIn' },
+    { icon: <Linkedin className="w-5 h-5" />, url: 'https://www.linkedin.com/in/johan-sebastian-neiva-martinez-a653b8207/?skipRedirect=true', label: 'LinkedIn' },
     { icon: <Mail className="w-5 h-5" />,     url: 'mailto:johansebastian627@gmail.com',                                                                    label: 'Email'   },
   ];
 
