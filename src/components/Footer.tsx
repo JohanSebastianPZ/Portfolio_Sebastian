@@ -1,4 +1,4 @@
-import { Code, Heart, Github, Linkedin, Mail } from 'lucide-react';
+import { Heart, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { scrollToSection } from '@/lib/scroll';
 
@@ -25,7 +25,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <Code className="w-6 h-6 text-indigo-400" />
+              <img src="/icono.png" alt="Logo" className="w-6 h-6 object-contain" />
               <span className="text-xl font-bold bg-gradient-to-r from-indigo-300 to-slate-200 bg-clip-text text-transparent">
                 Sebastian Dev
               </span>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Menu, X, Code, Github, Linkedin, Mail } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { scrollToSection } from '@/lib/scroll';
 
@@ -33,7 +33,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button onClick={() => handleNavClick('hero')} className="flex items-center gap-2 text-xl font-bold hover:opacity-70 transition-opacity">
-            <Code className="w-6 h-6 text-indigo-400" />
+            <img src="/icono.png" alt="Logo" className="w-6 h-6 object-contain" />
             <span className="bg-gradient-to-r from-indigo-300 to-slate-200 bg-clip-text text-transparent">
               Sebastian Dev
             </span>
