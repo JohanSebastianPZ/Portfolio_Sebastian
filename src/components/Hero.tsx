@@ -277,7 +277,7 @@ const Hero = () => {
                   <span className="font-bold">CV - Sebastian Martinez</span>
                   <button onClick={() => setShowCV(false)}>✕</button>
                 </div>
-                <iframe src="/cv.pdf" className="flex-1 rounded-b-lg" />
+                <iframe src="/cv_sebas_Mayo(2026).pdf" className="flex-1 rounded-b-lg" />
               </div>
             </div>
           )}
