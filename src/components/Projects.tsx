@@ -21,6 +21,16 @@ const Projects = () => {
       live: "https://github.com/JohanSebastianPZ/Activity_Booking_Plugin.git",
     },
     {
+      id: 3,
+      title: "3D Factory Maker",
+      description: "Landing page para empresa de fabricación avanzada que combina ingeniería, automatización y manufactura 3D. Incluye visualización 3D interactiva, animaciones fluidas y secciones para sus divisiones Industrial y Customs.",
+      image: "/3D-FM.png",
+      technologies: ["Astro", "React", "Three.js", "Tailwind CSS", "TypeScript", "Framer Motion"],
+      category: "web",
+      github: "https://github.com/JohanSebastianPZ/3dfm-landing.git",
+      live: "https://www.3dfactorymaker.com",
+    },
+    {
       id: 2,
       title: "Emisora Max FM",
       description: "Plataforma web para una emisora de radio en Barcelona con streaming en vivo, chat interactivo moderado por IA y panel de administración. Frontend en React, bot de chat en Python y conexión a base de datos en PHP.",
@@ -28,7 +38,7 @@ const Projects = () => {
       technologies: ["React", "TypeScript", "Vite", "Python", "PHP"],
       category: "web",
       github: "https://github.com/dimitryx01/maxfm-radiowave-glow.git",
-      live: "https://github.com/dimitryx01/maxfm-radiowave-glow.git",
+      live: "https://maxfm.es/",
     },
   ];
 
